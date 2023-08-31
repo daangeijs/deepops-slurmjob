@@ -44,7 +44,7 @@ echo "Started SSH on port {port}"
     # Connect to the remote host and save the file
     ssh = paramiko.SSHClient()
     ssh.load_system_host_keys()
-    ssh.connect(config['hostname'])
+    ssh.connect(config['hostname'], username=config['username'], key_filename=config['key_location'])
 
     ftp = ssh.open_sftp()
     with ftp.file(f"{config['job_location']}/{script_filename}", 'w') as f:
