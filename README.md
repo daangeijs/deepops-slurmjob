@@ -56,6 +56,9 @@ This command will generate the `sbatch` script for your interactive job. It will
 
 Use this command to run the interactive job that you've created. It will submit the job, monitor its status, and provide a VScode hyperlink for direct connection.
 
+### 4. `slurmjob ls``
+Lists all the existing job files you have in the job folder on your Slurm cluster.
+
 ## Configuration Settings
 
 ### Basic Config Settings
