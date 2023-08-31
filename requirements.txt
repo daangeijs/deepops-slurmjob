@@ -1,5 +1,3 @@
 paramiko
 PyYAML
-regex
-thread6
 pathlib

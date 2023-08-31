@@ -86,14 +86,15 @@ def setup_ssh_and_submit_job(settings, job_name):
         print(f"vscode://vscode-remote/ssh-remote+{machine_name}:{port_number}{settings['home_folder']}?ssh={settings['key_location']}")
 
     ssh.close()
+    
+def main(args):
+    print(args)
+    settings = load_settings()
+    setup_ssh_and_submit_job(settings, args)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Start a job.")
-    parser.add_argument("command", choices=["run"], help="Command to run")
     parser.add_argument("job_name", help="Name of the job to run")
-
     args = parser.parse_args()
-
-    if args.command == "run":
-        settings = load_settings()
-        setup_ssh_and_submit_job(settings, args.job_name)
+    main(args)

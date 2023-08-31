@@ -15,8 +15,8 @@ def main():
     args = parser.parse_args()
 
     if args.command == "config":
-        set_config.run()
+        set_config.main()
     elif args.command == "create":
-        create_interactive.run()
+        create_interactive.main()
     elif args.command == "run":
-        run_interactive.run(args.name)
+        run_interactive.main(args.name)
