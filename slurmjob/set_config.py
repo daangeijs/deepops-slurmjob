@@ -10,8 +10,10 @@ def save_config(settings):
         yaml.dump(settings, f)
 
 def load_config():
-    if os.path.exists('config.yml'):
-        with open('config.yml', 'r') as f:
+    package_root = os.path.dirname(__file__)
+    config_path = os.path.join(package_root, 'config.yml')
+    if os.path.exists(config_path):
+        with open(config_path, 'r') as f:
             return yaml.safe_load(f)
     return {}
 
