@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 
-import os
+from pathlib import Path
 import yaml
 import paramiko
 
 def load_config():
-    if not os.path.exists('config.yml'):
-        print("Config not found, please run 'runjob config' first.")
+    package_root = Path(__file__).parent
+    config_path = package_root / 'config.yml'
+    try:
+        with open(config_path, 'r') as f:
+            return yaml.safe_load(f)
+    except FileNotFoundError:
+        print("Config not found, please run 'slurmjob config' first.")
         exit(1)
-
-    with open('config.yml', 'r') as f:
-        return yaml.safe_load(f)
 
 def main():
     config = load_config()
@@ -23,7 +25,7 @@ def main():
     container_mounts = input("Enter the container mounts (e.g., /my/volume:/volume/indocker): ")
     container_image = input("Enter the container image (e.g., my-registry#name:tag)")
     port = input("Enter the port for SSH: ")
-    job_name = input("Enter the for your interactive job: ")
+    job_name = input("Enter the name for your interactive job: ")
     script_filename = f"{job_name}.sh"
 
     script_content = f"""#!/bin/bash

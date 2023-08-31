@@ -8,14 +8,16 @@ import threading
 import yaml
 from pathlib import Path
 
-def load_settings():
+
+def load_config():
+    package_root = Path(__file__).parent
+    config_path = package_root / 'config.yml'
     try:
-        with open('config.yml', 'r') as f:
+        with open(config_path, 'r') as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
         print("Config not found, please run 'runjob config' first.")
-        exit(1)
-
+        exit(1)slurmjob
 def poll_log_for_pattern(ssh, log_file, pattern, found_event):
     seen_lines = set()
     while not found_event.is_set():
@@ -89,7 +91,7 @@ def setup_ssh_and_submit_job(settings, job_name):
     
 def main(args):
     print(args)
-    settings = load_settings()
+    settings = load_config()
     setup_ssh_and_submit_job(settings, args)
 
 

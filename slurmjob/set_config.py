@@ -4,7 +4,9 @@ import os
 import yaml
 
 def save_config(settings):
-    with open('config.yml', 'w') as f:
+    package_root = os.path.dirname(__file__)
+    config_path = os.path.join(package_root, 'config.yml')
+    with open(config_path, 'w') as f:
         yaml.dump(settings, f)
 
 def load_config():
