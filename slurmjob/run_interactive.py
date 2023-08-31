@@ -90,7 +90,6 @@ def setup_ssh_and_submit_job(settings, job_name):
     ssh.close()
     
 def main(args):
-    print(args)
     settings = load_config()
     setup_ssh_and_submit_job(settings, args)
 
