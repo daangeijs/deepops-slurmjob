@@ -17,7 +17,7 @@ def load_config():
             return yaml.safe_load(f)
     except FileNotFoundError:
         print("Config not found, please run 'runjob config' first.")
-        exit(1)slurmjob
+        exit(1)
 def poll_log_for_pattern(ssh, log_file, pattern, found_event):
     seen_lines = set()
     while not found_event.is_set():
