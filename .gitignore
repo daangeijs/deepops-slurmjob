@@ -1,2 +1,4 @@
 .DS_Store
 config.yml
+slurmjob.egg-info
+build
