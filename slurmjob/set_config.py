@@ -2,7 +2,7 @@
 
 import os
 import yaml
-
+from pathlib import Path
 def save_config(settings):
     package_root = os.path.dirname(__file__)
     config_path = os.path.join(package_root, 'config.yml')
@@ -23,6 +23,8 @@ def main():
     hostname = input(f"Enter the hostname [{existing_config.get('hostname', '')}]: ") or existing_config.get('hostname', '')
     username = input(f"Enter the username [{existing_config.get('username', '')}]: ") or existing_config.get('username', '')
     key_location = input(f"Enter the location of SSH private key [{existing_config.get('key_location', '')}]: ") or existing_config.get('key_location', '')
+    # Expand user path if necessary
+    key_location = str(Path(key_location).expanduser())
 
     settings = {
         'hostname': hostname,
