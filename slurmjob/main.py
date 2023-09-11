@@ -1,5 +1,5 @@
 import argparse
-from . import create_interactive, run_interactive, set_config, list_files
+from slurmjob import create_interactive, run_interactive, set_config, list_files
 
 def main():
     parser = argparse.ArgumentParser(description="Manage Slurm jobs.")

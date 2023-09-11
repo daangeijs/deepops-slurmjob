@@ -2,3 +2,4 @@
 config.yml
 slurmjob.egg-info
 build
+.vscode
