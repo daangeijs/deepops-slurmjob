@@ -89,7 +89,7 @@ def setup_ssh_and_submit_job(settings, job_name):
     if match:
         port_number = match.group(1)
         print("Interactive session started")
-        print(f"vscode://vscode-remote/ssh-remote+{machine_name}:{port_number}{settings['home_folder']}?ssh={settings['key_location']}")
+        print(f"vscode://vscode-remote/ssh-remote+{settings['username']}@{machine_name}:{port_number}{settings['home_folder']}?ssh={settings['key_location']}")
 
     ssh.close()
     
