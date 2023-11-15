@@ -89,7 +89,10 @@ def setup_ssh_and_submit_job(settings, job_name):
     if match:
         port_number = match.group(1)
         print("Interactive session started")
-        print(f"vscode://vscode-remote/ssh-remote+{settings['username']}@{machine_name}:{port_number}{settings['home_folder']}?ssh={settings['key_location']}")
+        vscode_link = f"vscode://vscode-remote/ssh-remote+{settings['username']}@{machine_name}:{port_number}{settings['home_folder']}?ssh={settings['key_location']}"        
+        # Write the VSCode link to the log file
+        stdin, stdout, stderr = ssh.exec_command(f"echo '{vscode_link}' >> {log_file}")
+        print(vscode_link)
 
     ssh.close()
     
