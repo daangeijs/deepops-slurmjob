@@ -2,16 +2,29 @@
 
 ## Overview
 
-SlurmJob is a Python package designed to simplify the process of setting up and monitoring interactive jobs on a Slurm cluster. It provides an intuitive CLI that abstracts away complex `srun` and `sbatch` commands, allows you to directly connect to your job via a VScode hyperlink, and keeps track of your job's status. The package also automatically constructs the `sbatch` command based on your requirements and stores it on the cluster via SSH.
+SlurmJob is a Python package designed to simplify the process of setting up and monitoring interactive jobs on a Slurm cluster. It provides an CLI that abstracts away complex `srun` and `sbatch` commands, allows you to directly connect to your job via a VScode hyperlink, and keeps track of your job's status. The package also automatically constructs the `sbatch` command based on your requirements and stores it on the cluster via SSH.
 
+## 🎉 v0.3.0: Flexible SBATCH Command Parameters
+
+You can now pass additional SBATCH command parameters directly when running a job. This feature enhances the flexibility of job submission, allowing you to tailor job specifications dynamically, rather then creating new job templates for this.
+
+### Example Usage:
+
+```bash
+slurmjob run <job_name> --<SBATCH_option1>=<value1> --<SBATCH_option2>=<value2>
+```
+
+This command will submit your job with the specified SBATCH options, such as `--qos=idle` or `--cpus-per-task=1-2`.
+
+See here the list of all [SBATCH options](https://slurm.schedmd.com/sbatch.html).
 ## Behind the Scenes
 
 ### How it Works with SSH
 
 When you use SlurmJob, it establishes an SSH connection to the Slurm cluster using the `paramiko` library. Through this SSH connection, it executes various Slurm commands and other shell commands:
 
-- It creates necessary folders and files (like the logs folder and interactive sbatch jobs) .
-- It submits jobs using the `sbatch` command.
+- It creates necessary folders and files (like the logs folder and interactive sbatch jobs).
+- It submits jobs using the `sbatch` command, now with additional parameters if provided.
 - It monitors the job by tailing the Slurm log file with `tail`.
 
 ### Manual Equivalent in Slurm Commands
@@ -20,7 +33,7 @@ SlurmJob automates a series of steps that you'd otherwise perform manually. The 
 
 1. SSH into the cluster.
 2. Create a Slurm batch script (`*.sh`) file for your interactive job.
-3. Submit this batch file using `sbatch`.
+3. Submit this batch file using `sbatch`, now optionally with additional parameters.
 4. Monitor job status with `squeue` and logs using `tail -f`.
 5. Enter the ssh credentials of your interactive job into VScode.
 
@@ -52,11 +65,12 @@ Run this command to set up your initial configuration. You'll be prompted for yo
 
 This command will generate the `sbatch` script for your interactive job. It will prompt you for various job settings and then upload the script to the cluster.
 
-### 3. `slurmjob run <name>`
+### 3. `slurmjob run <name> [<SBATCH_options>]`
 
-Use this command to run the interactive job that you've created. It will submit the job, monitor its status, and provide a VScode hyperlink for direct connection.
+Use this command to run the interactive job that you've created. It will submit the job with any specified SBATCH options, monitor its status, and provide a VScode hyperlink for direct connection.
 
 ### 4. `slurmjob ls`
+
 Lists all the existing job files you have in the job folder on your Slurm cluster.
 
 ## Configuration Settings
@@ -75,7 +89,6 @@ Lists all the existing job files you have in the job folder on your Slurm cluste
 - **machine_prefix**: Prefix for the cluster machine, default is "dlc-".
 - **sbatch_command**: The `sbatch` command to run, default is "sbatch {job_location}/{job_name}.sh".
 
-
 ## Interactive Job Setup Variables
 
 When running `slurmjob create`, you'll be prompted for the following:
@@ -84,7 +97,9 @@ When running `slurmjob create`, you'll be prompted for the following:
 - **gpus-per-task**: The number of GPUs per task (default is 0).
 - **cpus-per-task**: The number of CPUs per task (default is 4).
 - **mem**: The amount of memory required for the job (default is 8G).
-- **time**: The time limit for the job (default is 4:00:00).
+- **time**: The time limit for the job (default is 4:00
+
+:00).
 - **container-mounts**: Paths to mount into the job's container.
 - **container-image**: The container image to use for the job.
 - **output**: The location for output logs (This is set automatically from your config).
