@@ -61,12 +61,12 @@ def submit_slurm_job(ssh, sbatch_command):
         print(f"Submitted batch job {job_id}")
         return job_id
 
-def setup_ssh_and_submit_job(settings, job_name):
+def setup_ssh_and_submit_job(settings, job_name, sbatch_args):
     ssh = paramiko.SSHClient()
     ssh.load_system_host_keys()
     ssh.connect(settings['hostname'], username=settings['username'], key_filename=settings['key_location'])
     create_log_folder(ssh, settings['log_location'])
-    sbatch_command = f"sbatch {settings['job_location']}/{job_name}.sh"
+    sbatch_command = f"sbatch {sbatch_args} {settings['job_location']}/{job_name}.sh"
     job_id = submit_slurm_job(ssh, sbatch_command)
     
     machine_name = get_machine_attached_to_job(ssh, job_id, settings['machine_prefix'])
@@ -97,13 +97,15 @@ def setup_ssh_and_submit_job(settings, job_name):
 
     ssh.close()
     
-def main(args):
+def main(args, sbatch_args):
     settings = load_config()
-    setup_ssh_and_submit_job(settings, args)
+    setup_ssh_and_submit_job(settings, args, sbatch_args)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Start a job.")
-    parser.add_argument("--job_name", help="Name of the job to run")
+    parser.add_argument("job_name", help="Name of the job to run")
+    parser.add_argument('sbatch_args', nargs=argparse.REMAINDER, 
+                        help="Additional SBATCH arguments")
     args = parser.parse_args()
-    main(args.job_name)
+    main(args.job_name, ' '.join(args.sbatch_args))

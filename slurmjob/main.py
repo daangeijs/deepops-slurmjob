@@ -13,6 +13,9 @@ def main():
     
     parser_run = subparsers.add_parser("run", help="Run a Slurm job.")
     parser_run.add_argument("name", type=str, help="Name of the job to run.")
+    parser_run.add_argument('sbatch_args', nargs=argparse.REMAINDER, 
+                            help="Additional SBATCH arguments")
+
 
     args = parser.parse_args()
 
@@ -21,6 +24,7 @@ def main():
     elif args.command == "create":
         create_interactive.main()
     elif args.command == "run":
-        run_interactive.main(args.name)
+        sbatch_args = ' '.join(args.sbatch_args)
+        run_interactive.main(args.name, sbatch_args)
     elif args.command == "ls":
         list_files.main()
