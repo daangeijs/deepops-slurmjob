@@ -97,9 +97,7 @@ When running `slurmjob create`, you'll be prompted for the following:
 - **gpus-per-task**: The number of GPUs per task (default is 0).
 - **cpus-per-task**: The number of CPUs per task (default is 4).
 - **mem**: The amount of memory required for the job (default is 8G).
-- **time**: The time limit for the job (default is 4:00
-
-:00).
+- **time**: The time limit for the job (default is 4:00:00).
 - **container-mounts**: Paths to mount into the job's container.
 - **container-image**: The container image to use for the job.
 - **output**: The location for output logs (This is set automatically from your config).
