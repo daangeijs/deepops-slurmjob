@@ -120,7 +120,7 @@ To securely connect to your Slurm host, you'll need to set up an SSH keypair. Fo
 2. Add your public key (`~/.ssh/id_rsa.pub`) to the `~/.ssh/authorized_keys` file on your Slurm host. You can do this manually or use `ssh-copy-id`:
 
     ```bash
-    ssh-copy-id username@hostname
+    ssh-copy-id -i ~/.ssh/id_rsa user@host
     ```
     Replace `username` and `hostname` with your Slurm host username and hostname.
 
