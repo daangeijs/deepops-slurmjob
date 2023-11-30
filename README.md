@@ -134,5 +134,3 @@ Add an entry for your Slurm host in your local `~/.ssh/config` file. Here's a sa
     ```
 
 Replace `your.slurm.hostname` with your Slurm host's hostname and `your-username` with your username on that host. This configuration will let you SSH into your Slurm host using the keypair.
-
-For more details, please refer to the official documentation.
