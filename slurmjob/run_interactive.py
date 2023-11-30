@@ -6,7 +6,7 @@ import time
 import re
 import threading
 import yaml
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 def load_config():
@@ -31,6 +31,7 @@ def poll_log_for_pattern(ssh, log_file, pattern, found_event):
         time.sleep(1)
 
 def get_last_line(ssh, log_file):
+    log_file = PurePosixPath(log_file)
     command = f"tail -n 1 {log_file}"
     stdin, stdout, stderr = ssh.exec_command(command)
     return stdout.read().decode("utf-8").strip()
