@@ -72,7 +72,7 @@ def setup_ssh_and_submit_job(settings, job_name, sbatch_args):
     machine_name = get_machine_attached_to_job(ssh, job_id, settings['machine_prefix'])
     print(f"Job {job_id} is running on {machine_name}")
 
-    log_file = Path(settings['log_location']) / Path(f"slurm-{job_id}.out")
+    log_file = PurePosixPath(settings['log_location']) / Path(f"slurm-{job_id}.out")
     ssh_config_pattern = re.compile(r"Started SSH on port (\d+)")
 
     pattern_found_event = threading.Event()
