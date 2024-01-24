@@ -9,7 +9,7 @@ import yaml
 import signal
 from pathlib import Path, PurePosixPath
 
-from scancel import cancel_slurm_job
+from .cancel_job import cancel_slurm_job
 
 
 def load_config():
@@ -19,7 +19,7 @@ def load_config():
         with open(config_path, 'r') as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
-        print("Config not found, please run 'runjob config' first.")
+        print("Config not found, please run 'slurmjob config' first.")
         exit(1)
         
 def signal_handler(signum, frame, ssh, job_id):
@@ -116,7 +116,7 @@ def main(args, sbatch_args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Start a job.")
-    parser.add_argument("--job_name", help="Name of the job to run")
+    parser.add_argument("job_name", help="Name of the job to run")
     parser.add_argument('sbatch_args', nargs=argparse.REMAINDER, 
                         help="Additional SBATCH arguments")
     args = parser.parse_args()

@@ -12,7 +12,7 @@ def load_config():
         with open(config_path, 'r') as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
-        print("Config not found, please run 'runjob config' first.")
+        print("Config not found, please run 'slurmjob config' first.")
         exit(1)
         
 def cancel_slurm_job(ssh, job_id):
@@ -40,6 +40,6 @@ def main(job_id):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Cancel a Slurm job.")
-    parser.add_argument("--job_id", help="ID of the job to cancel")
+    parser.add_argument("job_id", help="ID of the job to cancel")
     args = parser.parse_args()
     main(args.job_id)
