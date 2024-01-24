@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 setup(
     author='Daan Geijs',
     name='slurmjob',
-    version='0.3.1',
+    version='0.3.2',
     packages=find_packages(),
     install_requires=requirements,
     entry_points={
