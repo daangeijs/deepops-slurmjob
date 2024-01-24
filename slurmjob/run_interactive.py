@@ -6,7 +6,10 @@ import time
 import re
 import threading
 import yaml
+import signal
 from pathlib import Path, PurePosixPath
+
+from scancel import cancel_slurm_job
 
 
 def load_config():
@@ -18,6 +21,12 @@ def load_config():
     except FileNotFoundError:
         print("Config not found, please run 'runjob config' first.")
         exit(1)
+        
+def signal_handler(signum, frame, ssh, job_id):
+    # This function will be called when Ctrl+C is pressed
+    cancel_slurm_job(ssh, job_id)
+    exit(0)    
+        
 def poll_log_for_pattern(ssh, log_file, pattern, found_event):
     seen_lines = set()
     while not found_event.is_set():
@@ -69,6 +78,9 @@ def setup_ssh_and_submit_job(settings, job_name, sbatch_args):
     sbatch_command = f"sbatch {sbatch_args} {settings['job_location']}/{job_name}.sh"
     job_id = submit_slurm_job(ssh, sbatch_command)
     
+    # Setup Ctrl+C handler
+    signal.signal(signal.SIGINT, lambda signum, frame: signal_handler(signum, frame, ssh, job_id))
+    
     machine_name = get_machine_attached_to_job(ssh, job_id, settings['machine_prefix'])
     print(f"Job {job_id} is running on {machine_name}")
 
@@ -104,7 +116,7 @@ def main(args, sbatch_args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Start a job.")
-    parser.add_argument("job_name", help="Name of the job to run")
+    parser.add_argument("--job_name", help="Name of the job to run")
     parser.add_argument('sbatch_args', nargs=argparse.REMAINDER, 
                         help="Additional SBATCH arguments")
     args = parser.parse_args()
