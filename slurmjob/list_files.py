@@ -9,7 +9,7 @@ def load_config():
         with open(config_path, 'r') as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
-        print("Config not found, please run 'runjob config' first.")
+        print("Config not found, please run 'slurmjob config' first.")
         exit(1)
 
 def list_jobs(hostname, username, key_location, job_location):
