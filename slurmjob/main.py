@@ -1,5 +1,5 @@
 import argparse
-from slurmjob import create_interactive, run_interactive, set_config, list_files
+from slurmjob import create_interactive, run_interactive, set_config, list_files, cancel_job
 
 def main():
     parser = argparse.ArgumentParser(description="Manage Slurm jobs.")
@@ -16,6 +16,8 @@ def main():
     parser_run.add_argument('sbatch_args', nargs=argparse.REMAINDER, 
                             help="Additional SBATCH arguments")
 
+    parser_cancel = subparsers.add_parser("cancel", help="Cancel a Slurm job.")
+    parser_cancel.add_argument("job_id", type=str, help="ID of the job to cancel.")
 
     args = parser.parse_args()
 
@@ -28,3 +30,5 @@ def main():
         run_interactive.main(args.name, sbatch_args)
     elif args.command == "ls":
         list_files.main()
+    elif args.command == "cancel":
+        cancel_job.main(args.job_id)
