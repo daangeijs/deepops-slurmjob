@@ -4,10 +4,6 @@
 
 SlurmJob is a Python package designed to simplify the process of setting up and monitoring interactive jobs on a Slurm cluster. It provides an CLI that abstracts away complex `srun` and `sbatch` commands, allows you to directly connect to your job via a VScode hyperlink, and keeps track of your job's status. The package also automatically constructs the `sbatch` command based on your requirements and stores it on the cluster via SSH.
 
-## 🎉 v0.3.0: Flexible SBATCH Command Parameters
-
-You can now pass additional SBATCH command parameters directly when running a job. This feature enhances the flexibility of job submission, allowing you to tailor job specifications dynamically, rather then creating new job templates for this.
-
 ### Example Usage:
 
 ```bash
@@ -72,6 +68,9 @@ Use this command to run the interactive job that you've created. It will submit 
 ### 4. `slurmjob ls`
 
 Lists all the existing job files you have in the job folder on your Slurm cluster.
+
+### 5. `slurmjob cancel [<job_id>]`
+Cancels a running job on the Slurm cluster using the job ID.
 
 ## Configuration Settings
 
